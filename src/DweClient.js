@@ -85,7 +85,7 @@ class DweClient extends EventEmitter {
       data,
     };
     const stringifyed = JSON.stringify(eventData);
-    this.channel.publish(this.eventsExchange, '', Buffer.from(stringifyed), { expiration: this.ttl });
+    return this.channel.publish(this.exchangeName, '', Buffer.from(stringifyed), { expiration: this.ttl });
   }
 
   async close() {
