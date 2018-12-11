@@ -42,6 +42,8 @@ declare class DweClient {
   connect(): Promise<void>;
   call(req: Request): Promise<Response>;
   on(event: Event, fn: (data: any) => void): void;
+  close(): Promise<void>;
+  eventSend(event: Event, data: any): boolean;
 }
 
 export = DweClient;
