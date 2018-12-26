@@ -14,7 +14,19 @@ class DweClient extends EventEmitter {
   }
 
   async connect() {
-    this.connection = await amqplib.connect(this.connectionConfig);
+    try {
+      this.connection = await amqplib.connect(this.connectionConfig);
+    } catch (e) {
+      console.log(e);
+      setTimeout(() => this.connect(), 10000);
+      return;
+    }
+
+    this.connection.once('error', (err) => {
+      console.log(err);
+      setTimeout(() => this.connect(), 10000);
+    });
+
     this.channel = await this.connection.createChannel();
 
     let assertResult = await this.channel.assertQueue('', { exclusive: true });
